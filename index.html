@@ -3,233 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpenNow | Local Holiday Tracker</title>
-    <style>
-        :root {
-            --primary: #2ecc71;
-            --dark: #2c3e50;
-            --light: #f4f7f6;
-            --accent: #3498db;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            margin: 0;
-            background-color: var(--light);
-            color: var(--dark);
-        }
-
-        header {
-            background: var(--dark);
-            color: white;
-            padding: 3rem 1rem;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        h1 { margin: 0; font-size: 2.5rem; }
-        p { opacity: 0.8; margin-bottom: 1.5rem; }
-
-        .search-container {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            max-width: 800px;
-            margin: 0 auto;
-            flex-wrap: wrap;
-        }
-
-        input, select, button {
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        input { flex: 2; min-width: 200px; }
-        select { flex: 1; background: white; cursor: pointer; }
-
-        button {
-            background-color: var(--primary);
-            color: white;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
-            min-width: 150px;
-        }
-
-        button:hover { background-color: #27ae60; transform: translateY(-1px); }
-        button:active { transform: translateY(0); }
-
-        #results-container {
-            padding: 2rem 1rem;
-            max-width: 800px;
-            margin: 0 auto;
-            display: grid;
-            gap: 1rem;
-        }
-
-        .status-msg {
-            text-align: center;
-            color: #7f8c8d;
-            font-style: italic;
-            margin-top: 2rem;
-        }
-
-        .business-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 5px solid #eee;
-        }
-
-        .open-badge {
-            background: #d4edda;
-            color: #155724;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.85rem;
-        }
-
-        .closed-badge {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.85rem;
-        }
-
-        .unknown-badge {
-            background: #e2e3e5;
-            color: #383d41;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.85rem;
-        }
-    </style>
+    <title>OpenNow | Aesthetic Holiday Tracker</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <h1>📍 OpenNow</h1>
-        <p>Crowdsourced style holiday hours tracking</p>
-        <div class="search-container">
-            <input type="text" id="location-input" placeholder="City, neighborhood, or zip...">
-            <select id="type-input">
-                <option value="cafe">☕ Cafes</option>
-                <option value="pharmacy">💊 Pharmacies</option>
-                <option value="hardware_store">🔨 Hardware</option>
-                <option value="grocery_or_supermarket">🛒 Groceries</option>
-                <option value="restaurant">🍴 Restaurants</option>
-            </select>
-            <button id="search-btn">Check Status</button>
+    <div class="glass-header">
+        <div class="header-content">
+            <svg class="logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <h1>OpenNow</h1>
+            <div id="weather-widget" class="weather-hide">
+                <span id="temp">--°C</span>
+                <span id="weather-desc">Loading sky...</span>
+            </div>
         </div>
-    </header>
+
+        <div class="search-bar">
+            <input type="text" id="location-input" placeholder="Enter city or neighborhood...">
+            <select id="type-input">
+                <option value="cafe">Cafes</option>
+                <option value="pharmacy">Pharmacies</option>
+                <option value="hardware_store">Hardware</option>
+            </select>
+            <button id="search-btn">
+                <span>Check Status</span>
+            </button>
+        </div>
+        
+        <div class="controls">
+            <button id="music-toggle" class="icon-btn">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                <span>Lo-Fi Focus</span>
+            </button>
+        </div>
+    </div>
 
     <main id="results-container">
-        <div class="status-msg">Enter a location to see what's currently operating.</div>
+        <div class="initial-state">
+            <p>Ready to explore? Enter a location above.</p>
+        </div>
     </main>
 
-    <!-- REPLACE 'YOUR_API_KEY_HERE' BELOW WITH YOUR ACTUAL KEY -->
+    <!-- Sound Elements -->
+    <audio id="click-sound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
+    <audio id="bg-music" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3"></audio>
+
+    <!-- Google Maps API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&libraries=places&callback=initApp" async defer></script>
-
-    <script>
-        let service;
-        let geocoder;
-
-        // This runs once Google script loads
-        function initApp() {
-            console.log("Google Maps Engine Ready");
-            geocoder = new google.maps.Geocoder();
-            // Invisible element for Places service
-            service = new google.maps.places.PlacesService(document.createElement('div'));
-            
-            document.getElementById('search-btn').addEventListener('click', findBusinesses);
-        }
-
-        function findBusinesses() {
-            const locationText = document.getElementById('location-input').value;
-            const businessType = document.getElementById('type-input').value;
-            const container = document.getElementById('results-container');
-
-            if (!locationText) {
-                alert("Please enter a location!");
-                return;
-            }
-
-            container.innerHTML = `<div class="status-msg">Fetching live status for ${locationText}...</div>`;
-
-            geocoder.geocode({ address: locationText }, (results, status) => {
-                if (status === "OK") {
-                    const location = results[0].geometry.location;
-                    fetchPlaces(location, businessType);
-                } else {
-                    container.innerHTML = `<div class="status-msg" style="color:red">Error: ${status}. Make sure Geocoding API is enabled.</div>`;
-                }
-            });
-        }
-
-        function fetchPlaces(location, type) {
-            const request = {
-                location: location,
-                radius: '3000', // 3km
-                type: [type]
-            };
-
-            service.nearbySearch(request, (results, status) => {
-                const container = document.getElementById('results-container');
-                container.innerHTML = "";
-
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    results.forEach(place => {
-                        createCard(place);
-                    });
-                } else {
-                    container.innerHTML = `<div class="status-msg">No results found. Status: ${status}</div>`;
-                }
-            });
-        }
-
-        function createCard(place) {
-            const container = document.getElementById('results-container');
-            
-            // Checking if 'opening_hours' exists in the response
-            const hoursInfo = place.opening_hours;
-            let statusHtml = '<span class="unknown-badge">Hours Unknown</span>';
-
-            if (hoursInfo) {
-                const isOpen = hoursInfo.isOpen();
-                statusHtml = isOpen 
-                    ? '<span class="open-badge">OPEN NOW</span>' 
-                    : '<span class="closed-badge">CLOSED</span>';
-            }
-            
-            const card = document.createElement('div');
-            card.className = 'business-card';
-            card.style.borderLeftColor = hoursInfo ? (hoursInfo.isOpen() ? '#2ecc71' : '#e74c3c') : '#bdc3c7';
-            
-            card.innerHTML = `
-                <div>
-                    <h3 style="margin:0">${place.name}</h3>
-                    <p style="margin:5px 0; color: #666; font-size: 0.9rem;">${place.vicinity}</p>
-                    <small style="color: #999;">Rating: ${place.rating || 'N/A'} ⭐</small>
-                </div>
-                <div>
-                    ${statusHtml}
-                </div>
-            `;
-            
-            container.appendChild(card);
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
