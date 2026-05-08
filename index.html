@@ -1,1 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenNow: Local Holiday Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+    <header>
+        <h1>📍 OpenNow</h1>
+        <p>Real-time holiday hours for local businesses</p>
+        <div class="search-container">
+            <input type="text" id="location-input" placeholder="Enter city or zip code...">
+            <select id="type-input">
+                <option value="cafe">Cafes</option>
+                <option value="pharmacy">Pharmacies</option>
+                <option value="hardware_store">Hardware Stores</option>
+                <option value="grocery_or_supermarket">Groceries</option>
+            </select>
+            <button id="search-btn">Check Status</button>
+        </div>
+    </header>
+
+    <main id="results-container">
+        <div id="status-msg">Search for a location to see what's open.</div>
+    </main>
+
+    <!-- Load Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&libraries=places"></script>
+    <script src="script.js"></script>
+</body>
+</html>
